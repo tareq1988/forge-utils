@@ -80,9 +80,9 @@ if [ ! -d "$DOMAIN" ]; then
 fi
 
 yellow "(2/3) Copying files..."
-rsync -azh -P "$HOSTNAME:~/$DOMAIN/" "./$DOMAIN"
+rsync -azh -P --exclude "wp-admin" --exclude "wp-includes" --exclude '*.log*' "$HOSTNAME:~/$DOMAIN/" "./$DOMAIN"
 
 yellow "(3/3) Deleting remote database backup"
 ssh $HOSTNAME "rm ~/$DOMAIN/$DATABASE"
 
-green "Backup successfull!"
+green "Backup successful of $DOMAIN"
