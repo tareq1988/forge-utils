@@ -63,8 +63,6 @@ if [ ! -d "$DOMAIN" ]; then
     exit 1
 fi
 
-echo "$DOMAIN/$DATABASE"
-
 if [ ! -f "$DOMAIN/$DATABASE" ]; then
     error "Database backup not found. Exiting..."
     exit 1
@@ -76,10 +74,10 @@ fi
 # 3. Delete "database.sql.gz" from remote
 
 warning "(1/3) Copying files (wp-content)..."
-rsync -azh -P $DOMAIN/public/wp-content/* "$HOSTNAME:~/$DOMAIN/public/wp-content/"
+rsync -azh $DOMAIN/public/wp-content/* "$HOSTNAME:~/$DOMAIN/public/wp-content/"
 
 warning "(2/3) Copying database..."
-rsync -azh -P $DOMAIN/$DATABASE "$HOSTNAME:~/$DOMAIN/"
+rsync -azh $DOMAIN/$DATABASE "$HOSTNAME:~/$DOMAIN/"
 
 warning "(3/3) Importing database..."
 ssh $HOSTNAME /bin/bash <<EOT
